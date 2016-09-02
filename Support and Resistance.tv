@@ -1,0 +1,16 @@
+study("[RS]Support and Resistance V0", overlay=true)
+window1 = input(title='lookback window 1:', type=integer, defval=8)
+window2 = input(title='lookback window 2:', type=integer, defval=21)
+
+top1 = valuewhen(high >= highest(high, window1), high, 0)
+bot1 = valuewhen(low <= lowest(low, window1), low, 0)
+top2 = valuewhen(high >= highest(high, window2), high, 0)
+bot2 = valuewhen(low <= lowest(low, window2), low, 0)
+
+t1 = plot(top1, color=top1 != top1[1] ? na : black)
+b1 = plot(bot1, color=bot1 != bot1[1] ? na : black)
+t2 = plot(top2, color=top2 != top2[1] ? na : black)
+b2 = plot(bot2, color=bot2 != bot2[1] ? na : black)
+
+fill(t1, t2, color=orange, transp=80)
+fill(b1, b2, color=olive, transp=80)
