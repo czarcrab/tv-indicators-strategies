@@ -1,0 +1,16 @@
+study(title="TrendProphet", shorttitle="TrendProphet", overlay=false)
+// Script created by Killrb13
+ma10 = sma(close,10)
+ma20 = sma(close,20)
+ma50 = sma(close,50)
+smoothedMA = avg(ma10,ma20,ma50)
+cl10 = close[10]
+signal = (cl10-smoothedMA)
+signalBar = (signal-smoothedMA+close)
+E = signalBar[10]
+lineColor = iff (signalBar >= 0,green,red)
+plot(signalBar, color=lineColor, style=histogram, linewidth=2)
+Z = (E* (-1))
+X = (Z+abs(E))
+confidenceColor = iff (X <=signalBar,blue,lineColor)
+plot(0, color=confidenceColor, style=line, linewidth=5)

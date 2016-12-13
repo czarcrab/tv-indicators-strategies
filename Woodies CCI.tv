@@ -1,0 +1,21 @@
+study(title="Woodies CCI")
+
+cciTurboLength = input(title="CCI Turbo Length", type=integer, defval=6, minval=3, maxval=14)
+cci14Length = input(title="CCI 14 Length", type=integer, defval=14, minval=7, maxval=20)
+
+source = close
+
+cciTurbo = cci(source, cciTurboLength)
+cci14 = cci(source, cci14Length)
+
+last5IsDown = cci14[5] < 0 and cci14[4] < 0 and cci14[3] < 0 and cci14[2] < 0 and cci14[1] < 0
+last5IsUp = cci14[5] > 0 and cci14[4] > 0 and cci14[3] > 0 and cci14[2] > 0 and cci14[1] > 0
+histogramColor = last5IsUp ? green : last5IsDown ? red : cci14 < 0 ? green : red
+
+plot(cci14, title="CCI Turbo Histogram", color=histogramColor, style=histogram)
+plot(cciTurbo, title="CCI Turbo", color=green, style=line)
+plot(cci14, title="CCI 14", color=red, style=line)
+
+hline(0, title="Zero Line", color=black, linestyle=solid)
+hline(100, title="Hundred Line", color=black, linestyle=dotted)
+hline(-100, title="Minus Line", color=black, linestyle=dotted)

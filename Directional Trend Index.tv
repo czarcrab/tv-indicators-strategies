@@ -1,0 +1,37 @@
+////////////////////////////////////////////////////////////
+//  Copyright by HPotter v1.0 18/04/2014
+// This technique was described by William Blau in his book "Momentum,
+// Direction and Divergence" (1995). His book focuses on three key aspects
+// of trading: momentum, direction and divergence. Blau, who was an electrical
+// engineer before becoming a trader, thoroughly examines the relationship between
+// price and momentum in step-by-step examples. From this grounding, he then looks
+// at the deficiencies in other oscillators and introduces some innovative techniques,
+// including a fresh twist on Stochastics. On directional issues, he analyzes the
+// intricacies of ADX and offers a unique approach to help define trending and
+// non-trending periods.
+// Directional Trend Index is an indicator similar to DM+ developed by Welles Wilder.
+// The DM+ (a part of Directional Movement System which includes both DM+ and
+// DM- indicators) indicator helps determine if a security is "trending." William
+// Blau added to it a zeroline, relative to which the indicator is deemed positive or
+// negative. A stable uptrend is a period when the DTI value is positive and rising, a
+// downtrend when it is negative and falling.
+////////////////////////////////////////////////////////////
+study(title="Directional Trend Index (DTI)", shorttitle="DTI")
+r = input(14, minval=1)
+s = input(10, minval=1)
+u = input(5, minval=1)
+OB = input(25, minval=1)
+OS = input(-25, maxval=-1)
+hline(0, color=green, linestyle=line)
+xHMU = iff(high - high[1] > 0, high - high[1], 0)
+xLMD = iff(low - low[1] < 0, -(low - low[1]), 0)
+xPrice = xHMU - xLMD
+xPriceAbs = abs(xPrice)
+xuXA = ema(ema(ema(xPrice, r),s),u)
+xuXAAbs = ema(ema(ema(xPriceAbs, r),s),u)
+Val1 = 100 * xuXA
+Val2 = xuXAAbs
+DTI = iff(Val2 != 0, Val1 / Val2, 0)
+plot(DTI, color=maroon, title="DTI")
+plot(OB, color=blue, title="OB")
+plot(OS, color=red, title="OS")
